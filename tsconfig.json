@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "module": "commonJS", // import or export
+    "target": "ES2022",
+    "esModuleInterop": true,
+    "allowJs": true
+  }
+}

@@ -1,16 +1,28 @@
-import { HttpRequest, HttpResponse } from '../protocols/http'
-import { MissigingParamError } from '../errors/missing-param-error'
-import { badRequest } from '../helpers/badRequest'
-import { Controller } from '../protocols/controller'
+import { InvalidParamError, MissigingParamError } from '../errors'
+import { badRequest, serverError } from '../helpers/http-helper'
+import { Controller, HttpRequest, EmailValidator } from '../protocols'
 
 export class SignUpController implements Controller {
-  handle (httpRequest: HttpRequest): any {
-    const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
+  constructor (private readonly emailValidator: EmailValidator) {
+  }
 
-    for (const field of requiredFields) {
-      if (!httpRequest.body[field]) {
-        return badRequest(new MissigingParamError(field))
+  handle (httpRequest: HttpRequest): any {
+    try {
+      const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
+
+      for (const field of requiredFields) {
+        if (!httpRequest.body[field]) {
+          return badRequest(new MissigingParamError(field))
+        }
       }
+
+      const isValidEmail = this.emailValidator.isValid(httpRequest.body.email)
+
+      if (!isValidEmail) {
+        return badRequest(new InvalidParamError('email'))
+      }
+    } catch (error) {
+      return serverError()
     }
   }
 }

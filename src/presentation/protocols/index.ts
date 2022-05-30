@@ -1,3 +1,3 @@
+// provides generic protocols for controllers
 export * from './controller'
-export * from './email-validator'
 export * from './http'

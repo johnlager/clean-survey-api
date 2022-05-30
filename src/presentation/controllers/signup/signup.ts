@@ -1,14 +1,13 @@
-import { AddAccount } from '../../domain/usecases/add-account'
-import { InvalidParamError, MissigingParamError } from '../errors'
-import { badRequest, serverError } from '../helpers/http-helper'
-import { Controller, EmailValidator, HttpRequest } from '../protocols'
+import { InvalidParamError, MissigingParamError } from '../../errors'
+import { badRequest, serverError } from '../../helpers/http-helper'
+import { AddAccount, Controller, EmailValidator, HttpRequest, HttpResponse } from './signup-protocols'
 
 export class SignUpController implements Controller {
   constructor (private readonly emailValidator: EmailValidator,
     private readonly addAccount: AddAccount) {
   }
 
-  handle (httpRequest: HttpRequest): any {
+  handle (httpRequest: HttpRequest): HttpResponse | any {
     try {
       const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
 

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "module": "commonJS", // import or export
-    "target": "ES2022",
+    "target": "ES2019",
     "esModuleInterop": true,
     "allowJs": true,
     "strictNullChecks": true
